@@ -20,9 +20,7 @@ describe("Soutenance", () => {
     cy.get("dd > .items > :nth-child(1) > a").click();
     cy.get("#option-label-size-143-item-169").click();
     cy.get("#option-label-color-93-item-60").click();
-    cy.get('[class="product actions product-item-actions"]')
-      .find('[class="actions-primary"]')
-      .click();
+    cy.get('[class="actions-primary"]').find(':input[name="form_key"]').click();
   });
 
   it("modifier le panier", () => {
