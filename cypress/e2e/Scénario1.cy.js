@@ -39,9 +39,12 @@ describe("Soutenance", () => {
     cy.get("#product-updatecart-button").click();
     //cy.get('[class="message-success success message"]').should("be.visible");
     cy.url().should("contain", "/checkout/cart/");
+    cy.get('[class="counter-number"]')
+      .should("be.visible")
+      .and("contain.text", "5");
   });
 
-  it("Checkout - Adresses d'envoi et facturation identiques", () => {
+  it.only("Checkout - Adresses d'envoi et facturation identiques", () => {
     //ADD TO CART
     cy.addtocart();
     //PROCEED TO CART FROM SIDE PANEL
@@ -97,12 +100,12 @@ describe("Soutenance", () => {
     cy.get('[class="checkout-success"]').should("be.visible");
   });
 
-  it.only("Checkout - Adresses d'envoi et facturation différentes", () => {
+  it("Checkout - Adresses d'envoi et facturation différentes", () => {
     //ADD TO CART
-    cy.intercept({
-      method: "POST",
-      url: "https://magento.softwaretestingboard.com/checkout/cart/add/**",
-    }).as("addToCart");
+    //cy.intercept({
+    //method: "POST",
+    //url: "https://magento.softwaretestingboard.com/checkout/cart/add/**",
+    //}).as("addToCart");
     cy.get("#ui-id-4").click();
     cy.url().should("contain", "/women.html");
     cy.get("dd > .items > :nth-child(1) > a").click();
@@ -116,29 +119,30 @@ describe("Soutenance", () => {
       .find('[id="option-label-color-93-item-60"]')
       .click();
     cy.get('[class="action tocart primary"]').first().click({ force: true });
-    cy.wait("@addToCart");
+    cy.wait(5000);
+    //cy.wait("@addToCart");
     cy.get('[class="counter qty"]').should("be.visible");
     //PROCEED TO CART FROM SIDE PANEL
-    cy.intercept({
-      method: "GET",
-      url: "**/Magento_Checkout/template/minicart/subtotal.html",
-    }).as("viewcart");
+    //cy.intercept({
+    //method: "GET",
+    //url: "**/Magento_Ui/templates/modal/**",
+    //}).as("viewcart");
     cy.get('[class="action showcart"]').click({ force: true });
-    //cy.wait(2000);
+    cy.wait(2000);
     cy.get('[class="action viewcart"]').click({ force: true });
-    //cy.wait(5000);
-    cy.wait("@viewcart");
+    cy.wait(7000);
+    //cy.wait("@viewcart");
     cy.url().should("contain", "/checkout/cart/");
     //PROCEED TO CHECKOUT FROM CART
-    cy.intercept({
-      method: "GET",
-      url: "**/Magento_Checkout/template/shipping-address/**",
-    }).as("form");
-    cy.get('[class="action primary checkout"]').click();
-    cy.wait("@form", 6000);
-    //cy.wait(5000);
+    //cy.intercept({
+    //method: "GET",
+    //url: "**/Magento_Checkout/template/shipping-address/**",
+    //}).as("form");
+    cy.get('[class="action primary checkout"]').eq(1).click();
+    //cy.wait("@form", 6000);
+    cy.wait(12000);
     cy.url().should("contain", "/checkout/#shipping");
-    cy.pause();
+    //cy.pause();
     //FILLING CUSTOMER INFORMATIONS
     cy.get("#customer-email").type(randomUserMail);
     cy.get('input[name="firstname"]').type(randomFirstName);
@@ -165,9 +169,11 @@ describe("Soutenance", () => {
     //method: "GET",
     //url: "**/Magento_Checkout/template/billing-address.html",
     //}).as("billing");
-    cy.get('[id="billing-address-same-as-shipping-checkmo"]')
-      .uncheck()
-      .should("not.be.checked");
+    cy.get('[id="billing-address-same-as-shipping-checkmo"]').uncheck({
+      force: true,
+    });
+    cy.wait(2000);
+    //.should("not.be.checked");
     //cy.wait("@billing");
     cy.get('input[name="firstname"]').eq(0).type(randomFirstNameBill);
     cy.pause();
