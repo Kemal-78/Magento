@@ -24,10 +24,6 @@
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 Cypress.Commands.add("addtocart", () => {
-  cy.intercept({
-    method: "POST",
-    url: "**/checkout/cart/add/**",
-  }).as("addToCart");
   cy.get("#ui-id-4").click();
   cy.url().should("contain", "/women.html");
   cy.get("dd > .items > :nth-child(1) > a").click();
@@ -40,7 +36,7 @@ Cypress.Commands.add("addtocart", () => {
     .first()
     .find('[id="option-label-color-93-item-60"]')
     .click();
+  cy.wait(2000);
   cy.get('[class="action tocart primary"]').first().click({ force: true });
-  cy.wait("@addToCart");
-  cy.get('[class="counter qty"]').should("be.visible");
+  cy.get('[class="counter qty"]').should("be.visible").and("have.value", "1");
 });

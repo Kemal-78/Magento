@@ -22,23 +22,9 @@ describe("Soutenance", () => {
     cy.url().should("contain", "https://magento.softwaretestingboard.com");
   });
 
-  it("Ajout d'un article au panier", () => {
-    cy.get("#ui-id-4").click();
-    cy.url().should("contain", "/women.html");
-    cy.get("dd > .items > :nth-child(1) > a").click();
-    cy.url().should("contain", "/women/tops-women.html");
-    cy.get('[class="item product product-item"]')
-      .first()
-      .find('[id="option-label-size-143-item-167"]')
-      .click();
-    cy.get('[class="item product product-item"]')
-      .first()
-      .find('[id="option-label-color-93-item-60"]')
-      .click();
-    cy.get('[class="action tocart primary"]').first().click({ force: true });
-    cy.get('[class="counter qty"]').should("be.visible");
+  it.only("Ajout d'un article au panier", () => {
+    cy.addtocart();
   });
-
   it("Modifier le nombre d'articles au panier", () => {
     cy.addtocart();
     cy.get('[class="action showcart"]').click({ force: true });
