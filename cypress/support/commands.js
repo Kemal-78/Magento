@@ -38,5 +38,5 @@ Cypress.Commands.add("addtocart", () => {
     .click();
   cy.wait(2000);
   cy.get('[class="action tocart primary"]').first().click({ force: true });
-  cy.get('[class="counter qty"]').should("be.visible").and("have.value", "1");
+  cy.get('[class="counter qty"]').should("be.visible").and("contain.text", "1");
 });
