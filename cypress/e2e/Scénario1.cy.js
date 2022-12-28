@@ -18,7 +18,7 @@ let randomPhoneNumberBill = faker.phone.number("06########");
 
 let qty = faker.random.numeric();
 
-describe("Soutenance", () => {
+describe("Visiter Magento", () => {
   beforeEach(() => {
     cy.visit("https://magento.softwaretestingboard.com/");
     cy.url().should("contain", "https://magento.softwaretestingboard.com");
@@ -27,6 +27,7 @@ describe("Soutenance", () => {
   it("Ajout d'un article au panier", () => {
     cy.addtocart();
   });
+
   it("Modifier le nombre d'articles au panier", () => {
     cy.addtocart();
     cy.get('[class="action showcart"]').click({ force: true });
@@ -116,7 +117,6 @@ describe("Soutenance", () => {
     cy.get('input[name="company"]').type("Microsoft");
     cy.get('input[name="street[0]"]').type(randomAdress);
     cy.get('input[name="city"]').type(randomCity);
-    //cy.get(".select").eq(0).select("Paris").should("have.value", "Paris");
     cy.get('select[name="country_id"]')
       .select("France")
       .should("have.value", "FR");

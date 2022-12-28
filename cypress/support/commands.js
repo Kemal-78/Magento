@@ -26,7 +26,14 @@
 Cypress.Commands.add("addtocart", () => {
   cy.get("#ui-id-4").click();
   cy.url().should("contain", "/women.html");
-  cy.get("dd > .items > :nth-child(1) > a").click();
+  cy.get('[class="sidebar sidebar-main"]')
+    .find('[class="block filter"]')
+    .find('[class="content"]')
+    .first('[class="items"]')
+    .find(
+      'a[href="https://magento.softwaretestingboard.com/women/tops-women.html"]'
+    )
+    .click();
   cy.url().should("contain", "/women/tops-women.html");
   cy.get('[class="item product product-item"]')
     .first()
