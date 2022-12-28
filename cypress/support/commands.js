@@ -26,7 +26,14 @@
 Cypress.Commands.add("addtocart", () => {
   cy.get("#ui-id-4").click();
   cy.url().should("contain", "/women.html");
-  cy.get("dd > .items > :nth-child(1) > a").click();
+  cy.get('[class="sidebar sidebar-main"]')
+    .find('[class="block filter"]')
+    .find('[class="content"]')
+    .first('[class="items"]')
+    .find(
+      'a[href="https://magento.softwaretestingboard.com/women/tops-women.html"]'
+    )
+    .click();
   cy.url().should("contain", "/women/tops-women.html");
   cy.get('[class="item product product-item"]')
     .first()
@@ -38,5 +45,7 @@ Cypress.Commands.add("addtocart", () => {
     .click();
   cy.wait(2000);
   cy.get('[class="action tocart primary"]').first().click({ force: true });
-  cy.get('[class="counter qty"]').should("be.visible").and("have.value", "1");
+  cy.get('[class="counter-number"]')
+    .should("be.visible")
+    .and("contain.text", "1");
 });
